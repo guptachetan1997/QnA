@@ -4,7 +4,7 @@
   <h3>{{question.q_text}}</h2>
   <br />
   {% if question.q_body != None %}
-    <small>{{question.q_body}}</small>
+    <small>{{question.q_body|linebreaks}}</small>
     <br />
     <br />
   {% endif %}
@@ -37,7 +37,7 @@
   <br />
   <small class="text-muted">added on {{answer.timestamp|date:"d-m-Y" }}</small>
   <br />
-  {{answer.ans_text}}
+  {{answer.ans_text|linebreaks}}
   <br />
   <br />
   {% if ans_flag == False %}

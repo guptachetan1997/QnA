@@ -14,7 +14,7 @@
     {% endif %}
     <small class="text-muted">added on {{answer.timestamp|date:"d-m-Y" }}</small>
     <br />
-    {{answer.ans_text|slice:":500"}} ...
+    {{answer.ans_text|slice:":500"|linebreaks}} ...
     <br />
     <a href="/qa/s/{{answer.id}}">View Full</a>
     <br />
