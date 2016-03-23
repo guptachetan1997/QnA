@@ -6,14 +6,16 @@ body {
 .navbar-custom {
     background-color:#c0392b;
     border-radius:0;
-    color: #ecf0f1;
+    color: white;
+    margin: 0;
+    padding: 0;
 }
 
 .navbar-brand
 {
     margin: 0;
     padding: 0;
-{
+}
 
 .navbar-brand img
 {
