@@ -1,0 +1,14 @@
+{% extends "basic/header.html" %}
+
+{% block content %}  
+  <div class="container col-xs-10">
+    <h2>Questions</h2>
+    <div class = "list-group">
+      {% for question in questions %}
+      <a class="list-group-item" href="/qa/{{question.id}}">
+        {{question.q_text}} <span class="badge">{{question.ans_count}}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

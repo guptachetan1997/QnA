@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Login Page</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    {% load staticfiles %}
+    <link href="{% static 'basic/css/signin.css' %}" rel="stylesheet">
+  </head>
+  {% load staticfiles %}
+  <body background="https://unsplash.it/400/?random">
+
+    <div class="container">
+
+      <form class="form-signin" action="/accounts/register" method="post">{% csrf_token %}
+        <center>
+          <h2 class="form-signin-heading text-primary">Welcome to QnA Registration</h2>
+        </center>
+        <label for="inputUsername" class="sr-only">username</label>
+        {{form.username}}
+        <label for="inputemail" class="sr-only">Password</label>
+        {{form.email}}
+        <label for="inputFirstName" class="sr-only">Password</label>
+        {{form.first_name}}
+        <label for="inputLastName" class="sr-only">Password</label>
+        {{form.last_name}}
+        <label for="inputPassword" class="sr-only">Password</label>
+        {{form.password}}
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+        <br />
+        <br />
+        <a href="/accounts/login"><button class="btn btn-lg btn-primary btn-block" type="button">Login</button></a>
+      </form>
+
+    </div>
+  </body>
+</html>

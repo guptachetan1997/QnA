@@ -1,0 +1,82 @@
+{% extends "basic/header.html" %}
+
+{% block content %}
+  <h3>{{question.q_text}}</h2>
+  <br />
+  {% if question.q_body != None %}
+    <small>{{question.q_body}}</small>
+    <br />
+    <br />
+  {% endif %}
+  {% if question.anonymous == False %}
+    {% load user_info %}
+    <img class="img-circle" src= "{% get_profile_pic_from_userid question.user_id %}" width="40" height="40">
+    <a href="/profile/{{question.user_id}}">{% get_username_from_userid question.user_id %}</a>
+  {% else %}
+    added by Anonymous
+  {% endif %}
+  <small> on {{question.date}}</small>
+  <br />
+  <br />
+  <a href="/qa/add_ans/{{question.id}}"><button type="button" class="btn btn-primary btn-md">Add answer</button></a>
+  {% if question_flag == False %}
+    <a href="/qa/upvote_ques/{{question.id}}"><button type="button" class="btn btn-success btn-md">Upvote <span class="badge">{{question.upvotes}}</span></button></a>
+    <a href="/qa/downvote_ques/{{question.id}}"><button type="button" class="btn btn-danger btn-md">Downvote <span class="badge">{{question.downvotes}}</span></button></a>
+  {% else %}
+    <a href="#"><button type="button" class="btn btn-success btn-md disabled">Upvote <span class="badge">{{question.upvotes}}</span></button></a>
+    <a href="#"><button type="button" class="btn btn-danger btn-md disabled">Downvote <span class="badge">{{question.downvotes}}</span></button></a>
+  {% endif %}
+  <hr />
+  {% if answer.anonymous == False %}
+    {% load user_info %}
+    <img class="img-circle" src= "{% get_profile_pic_from_userid answer.user_id %}" width="40" height="40">
+    <a href="/profile/{{answer.user_id}}">{% get_username_from_userid answer.user_id %}</a>
+  {% else %}
+    Anonymous
+  {% endif %}
+  <br />
+  <small class="text-muted">added on {{answer.timestamp|date:"d-m-Y" }}</small>
+  <br />
+  {{answer.ans_text}}
+  <br />
+  <br />
+  {% if ans_flag == False %}
+    <a href="/qa/upvote_ans/{{answer.id}}"><button type="button" class="btn btn-success btn-xs">Upvote <span class="badge">{{answer.upvotes}}</span></button></a>
+    <a href="/qa/downvote_ans/{{answer.id}}"><button type="button" class="btn btn-danger btn-xs">Downvote <span class="badge">{{answer.downvotes}}</span></button></a>
+  {% else %}
+    <a href="#"><button type="button" class="btn btn-success btn-xs disabled">Upvote <span class="badge">{{answer.upvotes}}</span></button></a>
+    <a href="#"><button type="button" class="btn btn-danger btn-xs disabled">Downvote <span class="badge">{{answer.downvotes}}</span></button></a>
+  {% endif %}
+  <br />
+  <!-- <a data-toggle="collapse" href="#collapse_comment">Comments</a>
+  <div id="collapse_comment" class="collapse"> -->
+  <!-- <hr /> -->
+  <br />
+  <div class="panel-group">
+   <div class="panel panel-default">
+     <div class="panel-heading">
+       <h4 class="panel-title">
+         <a data-toggle="collapse" href="#collapse1">Comments <span class="badge">{{comment_count}}</a>
+       </h4>
+     </div>
+     <div id="collapse1" class="panel-collapse collapse">
+       <ul class="list-group">
+         {% for comment in comments %}
+           {% load user_info %}
+           <li class="list-group-item">
+             {% load user_info %}
+             <img class="img-circle" src= "{% get_profile_pic_from_userid comment.user_id %}" width="35" height="35">
+             <a href="#">{% get_username_from_userid comment.user_id %}</a> <small class="text-muted">{{comment.timestamp|timesince}} ago </small> : {{comment.body}}</li>
+         {% endfor %}
+       </ul>
+       <div class="panel-footer">
+         <form class="form-inline" action="/qa/s/{{answer.id}}" method="POST"> {% csrf_token %}
+          <label class="sr-only">Body : </label>
+            {{form.body}}
+          <button class="btn btn-xs btn-primary" type="submit">Add Comment</button>
+        </form>
+       </div>
+     </div>
+   </div>
+  </div>
+{% endblock %}

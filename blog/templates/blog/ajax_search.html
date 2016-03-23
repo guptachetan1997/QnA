@@ -1,0 +1,10 @@
+{% if posts.count > 0 %}
+  {% for post in posts %}
+  <a class="list-group-item" href="/blog/{{post.id}}" id="search-results">
+    {{post.title}} | {{ post.date|date:"d-m-Y" }}<span class="badge">{{post.likes}}</span>
+  </a>
+  {% endfor %}
+{% else %}
+  <a class="list-group-item">No reults found!!</a>
+
+{% endif %}

@@ -1,0 +1,41 @@
+{% extends "basic/header.html" %}
+
+{%block add_css%}
+{% load staticfiles %}
+<link href="{% static 'blog/blog.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block sidebar %}
+  <li><a href="/blog/create/">New Post</a></li>
+{% endblock %}
+
+
+{% block content %}
+    <div class="blog-post">
+      <h2 class="blog-post-title">{{post.title}}</h2>
+      {% load user_info %}
+      <p class="blog-post-meta">written by <a href="/profile/{{post.user_id}}">{% get_fullname_from_userid post.user_id %}</a> on {{post.date|date:"d-M-Y"}}</p>
+      <p class="blog-post-meta text-muted">{{post.view}} views</p>
+      <hr />
+      {{post.body|linebreaks}}
+    </div>
+    <hr />
+    <div class="container col-xs-10">
+      <div class="panel panel-default">
+        <div class="panel-heading"><span class="badge">{{comment_count}}</span>
+          Comments
+        </div>
+        {% for comment in comments %}
+          <div class="panel-body">
+            {% load user_info %}
+            <p><b><a href="/profile/{{comment.user_id}}">{% get_username_from_userid comment.user_id %}</a></b> <small>{{comment.date|date:"d-m-y"}}</small> : {{comment.body}}</p>
+          </div>
+        {% endfor %}
+      </div>
+      <form class="form-inline col-xs-6"  action="/blog/{{post.id}}" method="POST"> {% csrf_token %}
+        <label class="sr-only">Body : </label>
+        {{form.body}}
+        <button class="btn btn-xs btn-primary" type="submit">Add Comment</button>
+      </form>
+    </div>
+{% endblock %}

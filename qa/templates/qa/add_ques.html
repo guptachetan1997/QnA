@@ -1,0 +1,15 @@
+{% extends "basic/header.html" %}
+
+{% block content %}
+<form class="form-signin" action="/qa/add_ques" method="post">{% csrf_token %}
+    <h2 class="form-signin-heading text-primary">Add a new Question</h2>
+  <label for="inputQuestion" class="sr-only">Question</label>
+  {{form.q_text}}
+  <label for="inputQuestionBody" class="sr-only">Body</label>
+  {{form.q_body}}
+  <label for="anonymous" class="sr-only">Anonimity</label>
+  Go anonymous-> {{form.anonymous}}
+  <br />
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Add</button>
+</form>
+{% endblock %}

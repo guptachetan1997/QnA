@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Login Page</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    {% load staticfiles %}
+    <link href="{% static 'basic/css/signin.css' %}" rel="stylesheet">
+  </head>
+  {% load staticfiles %}
+  <!-- <body background="{% static 'basic/images/signin.jpg' %}"> -->
+  <body background="https://unsplash.it/400/?random">
+
+    <div class="container">
+
+      <form class="form-signin" action="/accounts/auth_view" method="post">{% csrf_token %}
+        <center>
+          <h2 class="form-signin-heading text-primary">Please log in</h2>
+        </center>
+        <label for="inputUsername" class="sr-only">username</label>
+        <input type="text" name="inputUsername" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Password" required>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+        <br />
+        <a href="/accounts/register"><button class="btn btn-lg btn-primary btn-block" type="button">Register</button></a>
+      </form>
+
+
+    </div>
+  </body>
+</html>

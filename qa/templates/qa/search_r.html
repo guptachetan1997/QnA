@@ -1,0 +1,82 @@
+{% extends "basic/header.html" %}
+
+{% block content %}
+  <!-- {% for question,answer,ans_flag in data %}
+    <a href="/qa/{{question.id}}">{{question.q_text}}</a>
+    <br/>
+    <br />
+    {% if answer.anonymous == False %}
+      {% load user_info %}
+      <img class="img-circle" src= "{% get_profile_pic_from_userid answer.user_id %}" width="40" height="40">
+      <a href="/profile/{{answer.user_id}}">{% get_username_from_userid answer.user_id %}</a>
+    {% else %}
+      Anonymous
+    {% endif %}
+    <br />
+    <small class="text-muted">added on {{answer.timestamp|date:"d-m-Y" }}</small>
+    <br />
+    {{answer.ans_text|slice:":500"}} ...
+    <br />
+    <a href="/qa/s/{{answer.id}}">View Full</a>
+    <br />
+    {% if ans_flag == False %}
+      <a href="/qa/upvote_ans/{{answer.id}}"><button type="button" class="btn btn-success btn-xs">Upvote <span class="badge">{{answer.upvotes}}</span></button></a>
+      <a href="/qa/downvote_ans/{{answer.id}}"><button type="button" class="btn btn-danger btn-xs">Downvote <span class="badge">{{answer.downvotes}}</span></button></a>
+    {% else %}
+      <a href="#"><button type="button" class="btn btn-success btn-xs disabled">Upvote <span class="badge">{{answer.upvotes}}</span></button></a>
+      <a href="#"><button type="button" class="btn btn-danger btn-xs disabled">Downvote <span class="badge">{{answer.downvotes}}</span></button></a>
+    {% endif %}
+    <br />
+    <hr />
+  {% endfor %} -->
+  <div class="container col-xs-10">
+    <h2>Questions</h2>
+    <div class = "list-group">
+      {% if questions %}
+        {% for question in questions %}
+        <a class="list-group-item" href="/qa/{{question.id}}">
+          {{question.q_text}} <span class="badge">{{question.ans_count}}</span>
+        </a>
+        {% endfor %}
+      {% else %}
+      <a class="list-group-item" href="#">
+        Nothing matches query <span class="badge"></span>
+      </a>
+      {% endif %}
+    </div>
+  </div>
+  <hr />
+  <div class="container col-xs-10">
+    <h2>Blogs</h2>
+    <div class = "list-group">
+      {% if posts %}
+        {% for post in posts %}
+        <a class="list-group-item" href="/blog/{{post.id}}" id="search-results">
+          {{post.title}} | {{ post.date|date:"d-m-Y" }}<span class="badge">{{post.likes}}</span>
+        </a>
+        {% endfor %}
+      {% else %}
+      <a class="list-group-item" href="#">
+        Nothing matches query <span class="badge"></span>
+      </a>
+      {% endif %}
+    </div>
+  </div>
+  <hr />
+  <div class="container col-xs-10">
+    <h2>People</h2>
+    {% if profiles %}
+      <div class = "list-group">
+        {% for profile in profiles %}
+        <a class="list-group-item" href="/profile/{{profile.id}}" id="search-results">
+          {{ profile.first_name}} {{ profile.last_name}} <small>aka</small> {{profile.username}}
+        </a>
+        {% endfor %}
+    {% else %}
+      <a class="list-group-item" href="#">
+        Nothing matches query <span class="badge"></span>
+      </a>
+    {% endif %}
+    </div>
+  </div>
+{% endblock %}

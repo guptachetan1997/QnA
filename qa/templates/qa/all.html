@@ -1,0 +1,31 @@
+{% extends "basic/header.html" %}
+
+{% block content %}
+  {% for question,answer,ans_flag in data %}
+    <a href="/qa/{{question.id}}">{{question.q_text}}</a>
+    <br/>
+    <br />
+    {% if answer.anonymous == False %}
+      {% load user_info %}
+      <img class="img-circle" src= "{% get_profile_pic_from_userid answer.user_id %}" width="40" height="40">
+      <a href="/profile/{{answer.user_id}}">{% get_username_from_userid answer.user_id %}</a>
+    {% else %}
+      Anonymous
+    {% endif %}
+    <small class="text-muted">added on {{answer.timestamp|date:"d-m-Y" }}</small>
+    <br />
+    {{answer.ans_text|slice:":500"}} ...
+    <br />
+    <a href="/qa/s/{{answer.id}}">View Full</a>
+    <br />
+    {% if ans_flag == False %}
+      <a href="/qa/upvote_ans/{{answer.id}}"><button type="button" class="btn btn-success btn-xs">Upvote <span class="badge">{{answer.upvotes}}</span></button></a>
+      <a href="/qa/downvote_ans/{{answer.id}}"><button type="button" class="btn btn-danger btn-xs">Downvote <span class="badge">{{answer.downvotes}}</span></button></a>
+    {% else %}
+      <a href="#"><button type="button" class="btn btn-success btn-xs disabled">Upvote <span class="badge">{{answer.upvotes}}</span></button></a>
+      <a href="#"><button type="button" class="btn btn-danger btn-xs disabled">Downvote <span class="badge">{{answer.downvotes}}</span></button></a>
+    {% endif %}
+    <br />
+    <hr />
+  {% endfor %}
+{% endblock %}

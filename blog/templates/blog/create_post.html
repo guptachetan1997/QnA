@@ -1,0 +1,15 @@
+{% extends "basic/header.html" %}
+
+{% block content %}
+    <div class="container col-xs-6">
+      <form class="form-signin"  action="/blog/create/" method="post"> {% csrf_token %}
+        <h2 class="form-signin-heading">New Blog Post</h2>
+        <label class="sr-only">Title : </label>
+        {{form.title}}
+        <label class="sr-only">Body : </label>
+        {{form.body}}
+        <br />
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Create Post</button>
+      </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "basic/header.html" %}
+
+
+{% block content %}
+  <div class="container col-sm-10">
+    {% if flag %}
+      <h2>Notifications <a href="/notifications/notif_read/all"><small>Mark All as Read</small></a></h2>
+    {% else %}
+      <h2>Notifications</h2>
+    {% endif %}
+    {% for notif in notifications %}
+      <a href="{{notif.link}}">
+        <div class="alert alert-success">
+          {% if flag %}
+            <a href="/notifications/notif_read/{{notif.id}}" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          {% endif %}
+          <a href="{{notif.link}}">
+          <strong>{{notif.title}}</strong>
+          <small>{{notif.timestamp|timesince}}</small>
+        </a>
+          <br />
+          {{notif.body}}
+        </div>
+    {% endfor %}
+  </div>
+{% endblock %}
