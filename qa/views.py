@@ -15,7 +15,6 @@ def search(request):
     questions = Question.objects.filter(q_text__icontains=query).order_by("-date")
     posts = Post.objects.filter(Q(title__icontains=query) | Q(body__icontains=query)).order_by("-date")
     profiles = User.objects.filter(Q(username__icontains=query)| Q(first_name__icontains=query) | Q(last_name__icontains=query))
-    print profiles
     return render(request, 'qa/search_r.html', {'questions':questions, 'posts':posts, 'profiles':profiles})
 
 
