@@ -21,9 +21,12 @@ def auth_view(request):
     if user is not None:
         login(request,user)
         if UserProfile.objects.filter(user_id= request.user.id).exists():
-            return HttpResponseRedirect('/qa/')
+            if request.POST.get('next') is not None:
+                return HttpResponseRedirect(request.POST.get('next'))
+            else :
+                return HttpResponseRedirect('/qa/')
         else:
-            return HttpResponseRedirect('/profile/edit')
+                return HttpResponseRedirect('/profile/edit')
     else:
         return HttpResponseRedirect('/accounts/login')
 

@@ -13,10 +13,7 @@
       Anonymous
     {% endif %}
     <small class="text-muted">added on {{answer.timestamp|date:"d-m-Y" }}</small>
-    <br />
-    {{answer.ans_text|slice:":500"|linebreaks}} ...
-    <br />
-    <a href="/qa/s/{{answer.id}}">View Full</a>
+    {{answer.ans_text|slice:":500"|linebreaks}}
     <br />
     {% if ans_flag == False %}
       <a href="/qa/upvote_ans/{{answer.id}}"><button type="button" class="btn btn-success btn-xs">Upvote <span class="badge">{{answer.upvotes}}</span></button></a>
@@ -25,6 +22,7 @@
       <a href="#"><button type="button" class="btn btn-success btn-xs disabled">Upvote <span class="badge">{{answer.upvotes}}</span></button></a>
       <a href="#"><button type="button" class="btn btn-danger btn-xs disabled">Downvote <span class="badge">{{answer.downvotes}}</span></button></a>
     {% endif %}
+    <a href="/qa/s/{{answer.id}}"><button type="button" class="btn btn-primary btn-xs">View Full</button></a>
     <br />
     <hr />
   {% endfor %}

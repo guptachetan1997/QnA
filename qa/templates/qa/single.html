@@ -40,7 +40,7 @@
     <small class="text-muted">added on {{answer.timestamp|date:"d-m-Y" }}</small>
     <br />
     {{answer.ans_text|slice:":500"|linebreaks}}
-    <a data-toggle="collapse" href="#collapse{{answer.id}}"> ...</a>
+    <a data-toggle="collapse" href="#collapse{{answer.id}}">more</a>
     <div id="collapse{{answer.id}}" class="collapse">
       {{answer.ans_text|slice:"500:"|linebreaks}}
     </div>
@@ -53,7 +53,7 @@
       <a href="#"><button type="button" class="btn btn-success btn-xs disabled">Upvote <span class="badge">{{answer.upvotes}}</span></button></a>
       <a href="#"><button type="button" class="btn btn-danger btn-xs disabled">Downvote <span class="badge">{{answer.downvotes}}</span></button></a>
     {% endif %}
-    <a href="/qa/s/{{answer.id}}"><button type="button" class="btn btn-primary btn-sm">View Full</button></a>
+    <a href="/qa/s/{{answer.id}}"><button type="button" class="btn btn-primary btn-xs">View Full</button></a>
     <br />
     <hr />
   {% endfor %}

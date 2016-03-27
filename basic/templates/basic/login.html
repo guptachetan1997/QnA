@@ -20,6 +20,7 @@
     <div class="container">
 
       <form class="form-signin" action="/accounts/auth_view" method="post">{% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.GET.next }}" />
         <center>
           <h2 class="form-signin-heading text-primary">Please log in</h2>
         </center>
