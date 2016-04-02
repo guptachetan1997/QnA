@@ -19,13 +19,8 @@
   <br />
   <br />
   <a href="/qa/add_ans/{{question.id}}"><button type="button" class="btn btn-primary btn-md">Add answer</button></a>
-  {% if question_flag == False %}
     <a href="/qa/upvote_ques/{{question.id}}"><button type="button" class="btn btn-success btn-md">Upvote <span class="badge">{{question.upvotes}}</span></button></a>
     <a href="/qa/downvote_ques/{{question.id}}"><button type="button" class="btn btn-danger btn-md">Downvote <span class="badge">{{question.downvotes}}</span></button></a>
-  {% else %}
-    <a href="#"><button type="button" class="btn btn-success btn-md disabled">Upvote <span class="badge">{{question.upvotes}}</span></button></a>
-    <a href="#"><button type="button" class="btn btn-danger btn-md disabled">Downvote <span class="badge">{{question.downvotes}}</span></button></a>
-  {% endif %}
   <hr />
   {% if answer.anonymous == False %}
     {% load user_info %}
@@ -40,13 +35,8 @@
   {{answer.ans_text|linebreaks}}
   <br />
   <br />
-  {% if ans_flag == False %}
     <a href="/qa/upvote_ans/{{answer.id}}"><button type="button" class="btn btn-success btn-xs">Upvote <span class="badge">{{answer.upvotes}}</span></button></a>
     <a href="/qa/downvote_ans/{{answer.id}}"><button type="button" class="btn btn-danger btn-xs">Downvote <span class="badge">{{answer.downvotes}}</span></button></a>
-  {% else %}
-    <a href="#"><button type="button" class="btn btn-success btn-xs disabled">Upvote <span class="badge">{{answer.upvotes}}</span></button></a>
-    <a href="#"><button type="button" class="btn btn-danger btn-xs disabled">Downvote <span class="badge">{{answer.downvotes}}</span></button></a>
-  {% endif %}
   <br />
   <!-- <a data-toggle="collapse" href="#collapse_comment">Comments</a>
   <div id="collapse_comment" class="collapse"> -->

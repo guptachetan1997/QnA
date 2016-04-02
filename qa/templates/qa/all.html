@@ -1,7 +1,7 @@
 {% extends "basic/header.html" %}
 
 {% block content %}
-  {% for question,answer,ans_flag in data %}
+  {% for question,answer in data %}
     <a href="/qa/{{question.id}}">{{question.q_text}}</a>
     <br/>
     <br />
@@ -15,13 +15,8 @@
     <small class="text-muted">added on {{answer.timestamp|date:"d-m-Y" }}</small>
     {{answer.ans_text|slice:":500"|linebreaks}}
     <br />
-    {% if ans_flag == False %}
-      <a href="/qa/upvote_ans/{{answer.id}}"><button type="button" class="btn btn-success btn-xs">Upvote <span class="badge">{{answer.upvotes}}</span></button></a>
-      <a href="/qa/downvote_ans/{{answer.id}}"><button type="button" class="btn btn-danger btn-xs">Downvote <span class="badge">{{answer.downvotes}}</span></button></a>
-    {% else %}
-      <a href="#"><button type="button" class="btn btn-success btn-xs disabled">Upvote <span class="badge">{{answer.upvotes}}</span></button></a>
-      <a href="#"><button type="button" class="btn btn-danger btn-xs disabled">Downvote <span class="badge">{{answer.downvotes}}</span></button></a>
-    {% endif %}
+    <a href="/qa/upvote_ans/{{answer.id}}"><button type="button" class="btn btn-success btn-xs">Upvote <span class="badge">{{answer.upvotes}}</span></button></a>
+    <a href="/qa/downvote_ans/{{answer.id}}"><button type="button" class="btn btn-danger btn-xs">Downvote <span class="badge">{{answer.downvotes}}</span></button></a>
     <a href="/qa/s/{{answer.id}}"><button type="button" class="btn btn-primary btn-xs">View Full</button></a>
     <br />
     <hr />

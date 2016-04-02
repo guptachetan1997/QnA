@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from models import Question,Answer,Comment
+from models import Question,Answer,Comment,Vote
 from blog.models import Post
 from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
 from forms import QuestionForm,AnswerForm,AddComment
 from notifications.models import add_notif_user,notif_all_except
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponseRedirect
 from django.db.models import Q
 
@@ -23,12 +24,10 @@ def all(request):
     questions = Question.objects.filter(ans_count__gt=0).order_by("-date")
     ans = Answer.objects.all()
     answers = []
-    ans_flags = []
     for question in questions:
         if ans.filter(question_id= question.id):
             answers.append(ans.filter(question_id = question.id).latest('timestamp'))
-            ans_flags.append(request.session.get('answer'+ str(ans.filter(question_id = question.id).latest('timestamp').id), False))
-    return render(request, 'qa/all.html', {'data': zip(questions,answers,ans_flags)})
+    return render(request, 'qa/all.html', {'data': zip(questions,answers)})
 
 @login_required(login_url='/accounts/login/')
 def only_questions(request):
@@ -63,22 +62,16 @@ def single_ans(request, ans_id):
             answer = Answer.objects.get(id = ans_id)
             args['form'] = AddComment()
             args['question'] = Question.objects.get(id = answer.question_id)
-            args['question_flag'] = request.session.get('question'+ str(answer.question_id), False)
             args['comments'] = Comment.objects.filter(answer_id = ans_id)
             args['comment_count'] = Comment.objects.filter(answer_id = ans_id).count()
             args['answer'] = Answer.objects.get(id = ans_id)
-            args['ans_flag'] = request.session.get('answer'+ str(ans_id), False)
             return render(request, 'qa/single_ans.html', args)
 
 @login_required(login_url='/accounts/login/')
 def single(request, id):
     question = Question.objects.get(id = id)
-    question_flag = request.session.get('question'+ str(id), False)
     answers = Answer.objects.filter(question_id=id).order_by("-upvotes")
-    ans_flags = []
-    for answer in answers:
-        ans_flags.append(request.session.get('answer'+ str(answer.question_id), False))
-    data = zip(answers,ans_flags)
+    data = answers
     return render(request, 'qa/single.html', {'question':question, 'data':data})
 
 
@@ -139,16 +132,30 @@ def add_ans(request, q_id):
 
 @login_required(login_url='/accounts/login/')
 def up_ques(request, q_id):
+    content_type = ContentType.objects.get_for_model(Question)
     try:
-        if request.session.get('question'+q_id, False):
-            return HttpResponseRedirect('/qa/%s' % q_id)
+        vote = Vote.objects.get(content_type=content_type, object_id=q_id, user_id=request.user.id)
+        if vote.value == 1:
+            q = Question.objects.get(id = q_id)
+            q.upvotes-=1
+            q.save()
+            vote.delete()
         else:
-            request.session['question'+q_id] = True
-            request.session.modified = True
+            q = Question.objects.get(id = q_id)
+            q.downvotes+=1
+            q.save()
+            vote.delete()
+            return HttpResponseRedirect('/qa/upvote_ques/%s' % q_id)
 
+    except Vote.DoesNotExist:
         q = Question.objects.get(id = q_id)
         q.upvotes+=1
         q.save()
+        v = Vote()
+        v.user_id = request.user.id
+        v.value = 1
+        v.content_object = q
+        v.save()
         add_notif_user(
             {
                 'title': request.user.username + " upvoted your question.",
@@ -157,22 +164,34 @@ def up_ques(request, q_id):
             },
             q.user_id
         )
-    except:
-        pass
     return HttpResponseRedirect('/qa/%s' % q_id)
 
 @login_required(login_url='/accounts/login/')
 def down_ques(request, q_id):
+    content_type = ContentType.objects.get_for_model(Question)
     try:
-        if request.session.get('question'+q_id, False):
-            return HttpResponseRedirect('/qa/%s' % q_id)
+        vote = Vote.objects.get(content_type=content_type, object_id=q_id, user_id=request.user.id)
+        if vote.value == -1:
+            q = Question.objects.get(id = q_id)
+            q.downvotes+=1
+            q.save()
+            vote.delete()
         else:
-            request.session['question'+q_id] = True
-            request.session.modified = True
+            q = Question.objects.get(id = q_id)
+            q.upvotes-=1
+            q.save()
+            vote.delete()
+            return HttpResponseRedirect('/qa/downvote_ques/%s' % q_id)
 
+    except Vote.DoesNotExist:
         q = Question.objects.get(id = q_id)
         q.downvotes-=1
         q.save()
+        v = Vote()
+        v.user_id = request.user.id
+        v.value = -1
+        v.content_object = q
+        v.save()
         add_notif_user(
             {
                 'title': request.user.username + " downvoted your question.",
@@ -181,54 +200,75 @@ def down_ques(request, q_id):
             },
             q.user_id
         )
-    except:
-        pass
     return HttpResponseRedirect('/qa/%s' % q_id)
 
 @login_required(login_url='/accounts/login/')
 def up_ans(request, ans_id):
+    content_type = ContentType.objects.get_for_model(Answer)
     try:
-        if request.session.get('answer' + ans_id, False):
-            return HttpResponseRedirect('/qa/s/%s' % ans_id)
-        else:
-            request.session['answer'+ans_id] = True
-            request.session.modified = True
-
+      vote = Vote.objects.get(content_type=content_type, object_id=ans_id, user_id=request.user.id)
+      if vote.value == 1:
+          a = Answer.objects.get(id = ans_id)
+          a.upvotes-=1
+          a.save()
+          vote.delete()
+      else:
+          a = Answer.objects.get(id = ans_id)
+          a.downvotes+=1
+          a.save()
+          vote.delete()
+          return HttpResponseRedirect('/qa/upvote_ans/%s' % ans_id)
+    except Vote.DoesNotExist:
         a = Answer.objects.get(id = ans_id)
         a.upvotes+=1
         a.save()
+        v = Vote()
+        v.user_id = request.user.id
+        v.value = 1
+        v.content_object = a
+        v.save()
         add_notif_user(
-            {
-                'title': request.user.username + " upvoted your answer.",
-                'body' : "",
-                'link' : "/qa/s/%s"%ans_id
-            },
-            a.user_id
-        )
-    except:
-        print "fuck"
+        {
+            'title': request.user.username + " upvoted your answer.",
+            'body' : "",
+            'link' : "/qa/s/%s"%ans_id
+        },
+        a.user_id
+    )
     return HttpResponseRedirect('/qa/s/%s' % ans_id)
+
 
 @login_required(login_url='/accounts/login/')
 def down_ans(request, ans_id):
+    content_type = ContentType.objects.get_for_model(Answer)
     try:
-        if request.session.get('answer' + ans_id, False):
-            return HttpResponseRedirect('/qa/s/%s' % ans_id)
-        else:
-            request.session['answer'+ans_id] = True
-            request.session.modified = True
-
+      vote = Vote.objects.get(content_type=content_type, object_id=ans_id, user_id=request.user.id)
+      if vote.value == -1:
+          a = Answer.objects.get(id = ans_id)
+          a.downvotes+=1
+          a.save()
+          vote.delete()
+      else:
+          a = Answer.objects.get(id = ans_id)
+          a.upvotes-=1
+          a.save()
+          vote.delete()
+          return HttpResponseRedirect('/qa/downvote_ans/%s' % ans_id)
+    except Vote.DoesNotExist:
         a = Answer.objects.get(id = ans_id)
         a.downvotes-=1
         a.save()
+        v = Vote()
+        v.user_id = request.user.id
+        v.value = -1
+        v.content_object = a
+        v.save()
         add_notif_user(
-            {
-                'title': request.user.username + " downvoted your answer.",
-                'body' : "",
-                'link' : "/qa/s/%s"%ans_id
-            },
-            a.user_id
-        )
-    except:
-        pass
+        {
+            'title': request.user.username + " downvoted your answer.",
+            'body' : "",
+            'link' : "/qa/s/%s"%ans_id
+        },
+        a.user_id
+    )
     return HttpResponseRedirect('/qa/s/%s' % ans_id)
