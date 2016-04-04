@@ -18,13 +18,14 @@ def auth_view(request):
     username = request.POST.get('inputUsername', "")
     password = request.POST.get('inputPassword', "")
     user  = authenticate(username=username, password=password)
+    # print request.POST.get('next') == ""
     if user is not None:
         login(request,user)
         if UserProfile.objects.filter(user_id= request.user.id).exists():
-            if request.POST.get('next') is not None:
-                return HttpResponseRedirect(request.POST.get('next'))
-            else :
+            if request.POST.get('next') == "":
                 return HttpResponseRedirect('/qa/')
+            else :
+                return HttpResponseRedirect(request.POST.get('next'))
         else:
                 return HttpResponseRedirect('/profile/edit')
     else:
