@@ -34,10 +34,10 @@
     <br />
     <small class="text-muted">added on {{answer.timestamp|date:"d-m-Y" }}</small>
     <br />
-    {{answer.ans_text|slice:":500"|linebreaks}}
+    {{answer.get_markdown|slice:":500"|linebreaks}}
     <a data-toggle="collapse" href="#collapse{{answer.id}}">more</a>
     <div id="collapse{{answer.id}}" class="collapse">
-      {{answer.ans_text|slice:"500:"|linebreaks}}
+      {{answer.get_markdown|slice:"500:"|linebreaks}}
     </div>
     <br />
     <br />

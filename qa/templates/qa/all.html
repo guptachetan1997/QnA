@@ -13,7 +13,7 @@
       Anonymous
     {% endif %}
     <small class="text-muted">added on {{answer.timestamp|date:"d-m-Y" }}</small>
-    {{answer.ans_text|slice:":500"|linebreaks}}
+    {{answer.get_markdown|slice:":500"|linebreaks}}
     <br />
     <a href="/qa/upvote_ans/{{answer.id}}"><button type="button" class="btn btn-success btn-sm">Upvote <span class="badge">{{answer.upvotes}}</span></button></a>
     <a href="/qa/downvote_ans/{{answer.id}}"><button type="button" class="btn btn-danger btn-sm">Downvote <span class="badge">{{answer.downvotes}}</span></button></a>

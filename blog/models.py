@@ -2,6 +2,8 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.contrib.auth.models import User
+from markdown_deux import markdown
+from django.utils.safestring import mark_safe
 
 class Post(models.Model):
     title = models.CharField(max_length = 140)
@@ -12,6 +14,10 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_markdown(self):
+        body = self.body
+        return mark_safe(markdown(body))
 
 class Blog_Comment(models.Model):
     body = models.TextField()

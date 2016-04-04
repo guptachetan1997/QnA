@@ -5,11 +5,6 @@
 <link href="{% static 'blog/blog.css' %}" rel="stylesheet">
 {% endblock %}
 
-{% block sidebar %}
-  <li><a href="/blog/create/">New Post</a></li>
-{% endblock %}
-
-
 {% block content %}
     <div class="blog-post">
       <h2 class="blog-post-title">{{post.title}}</h2>
@@ -17,7 +12,7 @@
       <p class="blog-post-meta">written by <a href="/profile/{{post.user_id}}">{% get_fullname_from_userid post.user_id %}</a> on {{post.date|date:"d-M-Y"}}</p>
       <p class="blog-post-meta text-muted">{{post.view}} views</p>
       <hr />
-      {{post.body|linebreaks}}
+      {{post.get_markdown|linebreaks}}
     </div>
     <hr />
     <div class="container col-xs-10">

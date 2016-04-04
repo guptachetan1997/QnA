@@ -43,7 +43,7 @@ def create(request):
         form = PostForm(request.POST)
         if form.is_valid():
             post_form = form.save(commit = False)
-            post_form.user = request.user
+            post_form.user = User.objects.get(id = request.user.id)
             post_form.save()
             notif_all_except(
                 {

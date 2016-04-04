@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from models import Question,Answer,Comment
+from pagedown.widgets import PagedownWidget
 
 class QuestionForm(forms.ModelForm):
     class Meta:
@@ -14,12 +15,13 @@ class QuestionForm(forms.ModelForm):
         }
 
 class AnswerForm(forms.ModelForm):
+    ans_text = forms.CharField(widget=PagedownWidget)
     class Meta:
         model = Answer
         exclude = ['timestamp', 'upvotes', 'downvotes', 'question', 'user']
         fields = ('ans_text', 'anonymous')
         widgets = {
-            'ans_text': forms.Textarea(attrs={'class' : "form-control input-large", 'required': '', 'autofocus':'', 'placeholder' : 'Your answer!'}),
+            # 'ans_text': forms.Textarea(attrs={'class' : "form-control input-large", 'required': '', 'autofocus':'', 'placeholder' : 'Your answer!'}),
             'anonymous' : forms.CheckboxInput(attrs = {'placeholder':"Anonymous"}),
         }
 

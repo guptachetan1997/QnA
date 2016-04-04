@@ -32,7 +32,7 @@
   <br />
   <small class="text-muted">added on {{answer.timestamp|date:"d-m-Y" }}</small>
   <br />
-  {{answer.ans_text|linebreaks}}
+  {{answer.get_markdown|linebreaks}}
   <br />
   <br />
     <a href="/qa/upvote_ans/{{answer.id}}"><button type="button" class="btn btn-success btn-sm">Upvote <span class="badge">{{answer.upvotes}}</span></button></a>

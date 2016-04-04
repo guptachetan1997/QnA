@@ -3,6 +3,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
+from django.utils.safestring import mark_safe
+from markdown_deux import markdown
 
 
 class Question(models.Model):
@@ -29,6 +31,11 @@ class Answer(models.Model):
 
     def __str__(self):
         return self.ans_text[:100]
+
+    def get_markdown(self):
+        ans_text = self.ans_text
+        return mark_safe(markdown(ans_text))
+
 
 class Comment(models.Model):
     body = models.TextField()
