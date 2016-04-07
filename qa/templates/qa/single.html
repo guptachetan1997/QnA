@@ -1,6 +1,10 @@
 {% extends "basic/header.html" %}
 
 {% block content %}
+  {% for tag in question.tagify %}
+    <a href="#"><span class="badge">{{tag}}</span></a>
+  {% endfor %}
+  <br />
   <h3>{{question.q_text}}</h2>
   <br />
   {% if question.q_body %}

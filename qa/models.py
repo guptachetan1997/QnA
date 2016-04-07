@@ -10,6 +10,7 @@ from markdown_deux import markdown
 class Question(models.Model):
     q_text = models.CharField(max_length=200)
     q_body = models.TextField(blank=True)
+    tags = models.TextField(blank=True)
     date = models.DateTimeField(auto_now_add=True)
     upvotes = models.IntegerField(default=0)
     downvotes = models.IntegerField(default=0)
@@ -19,6 +20,11 @@ class Question(models.Model):
 
     def __str__(self):
         return self.q_text
+
+    def tagify(self):
+        tag_ret = self.tags.split()
+        return tag_ret
+
 
 class Answer(models.Model):
     ans_text = models.TextField()

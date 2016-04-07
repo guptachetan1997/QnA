@@ -1,6 +1,10 @@
 {% extends "basic/header.html" %}
 
 {% block content %}
+  {% for tag in question.tagify %}
+    <a href="#"><span class="badge">{{tag}}</span></a>
+  {% endfor %}
+  <br />
   <h3>{{question.q_text}}</h2>
   <br />
   {% if question.q_body != None %}
@@ -16,8 +20,8 @@
     added by Anonymous
   {% endif %}
   <small> on {{question.date}}</small>
-  <br />
-  <br />
+  <br/>
+  <br/>
   <a href="/qa/add_ans/{{question.id}}"><button type="button" class="btn btn-primary btn-md">Add answer</button></a>
     <a href="/qa/upvote_ques/{{question.id}}"><button type="button" class="btn btn-success btn-md">Upvote <span class="badge">{{question.upvotes}}</span></button></a>
     <a href="/qa/downvote_ques/{{question.id}}"><button type="button" class="btn btn-danger btn-md">Downvote <span class="badge">{{question.downvotes}}</span></button></a>

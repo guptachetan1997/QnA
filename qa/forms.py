@@ -7,10 +7,11 @@ class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
         exclude = ['date', 'upvotes', 'user', 'ans_count']
-        fields = ('q_text', 'q_body' , 'anonymous')
+        fields = ('q_text', 'q_body' , 'anonymous', 'tags')
         widgets = {
             'q_text': forms.TextInput(attrs={'class' : "form-control", 'maxlength' : 200, 'required': '', 'autofocus':'', 'placeholder' : 'Question'}),
             'q_body': forms.Textarea(attrs={'class' : "form-control input-large", 'placeholder' : 'Additional details!'}),
+            'tags': forms.TextInput(attrs={'class' : "form-control", 'maxlength' : 200, 'placeholder' : 'Tags'}),
             'anonymous' : forms.CheckboxInput(attrs = {'placeholder':"Anonymous"}),
         }
 
