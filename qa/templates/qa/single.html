@@ -2,7 +2,7 @@
 
 {% block content %}
   {% for tag in question.tagify %}
-    <a href="#"><span class="badge">{{tag}}</span></a>
+    <a href="/qa/search?search={{tag}}"><span class="badge">{{tag}}</span></a>
   {% endfor %}
   <br />
   <h3>{{question.q_text}}</h2>

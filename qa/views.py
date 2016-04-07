@@ -13,7 +13,7 @@ from django.db.models import Q
 @login_required(login_url='/accounts/login/')
 def search(request):
     query  = request.GET.get('search', '')
-    questions = Question.objects.filter(q_text__icontains=query).order_by("-date")
+    questions = Question.objects.filter( Q(q_text__icontains=query) | Q(tags__icontains=query) ).order_by("-date")
     posts = Post.objects.filter(Q(title__icontains=query) | Q(body__icontains=query)).order_by("-date")
     profiles = User.objects.filter(Q(username__icontains=query)| Q(first_name__icontains=query) | Q(last_name__icontains=query))
     return render(request, 'qa/search_r.html', {'questions':questions, 'posts':posts, 'profiles':profiles})
