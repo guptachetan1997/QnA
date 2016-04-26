@@ -1,5 +1,9 @@
 {% extends "basic/header.html" %}
 
+{% block title_extra %}
+  {{question.q_text}}
+{% endblock %}
+
 {% block content %}
   {% for tag in question.tagify %}
     <a href="/qa/search?search={{tag}}"><span class="badge">{{tag}}</span></a>
@@ -38,10 +42,10 @@
     <br />
     <small class="text-muted">added on {{answer.timestamp|date:"d-m-Y" }}</small>
     <br />
-    {{answer.get_markdown|slice:":500"|linebreaks}}
+    <div class="content-markdown">{{answer.get_markdown|slice:":400"|linebreaks}}</div>
     <a data-toggle="collapse" href="#collapse{{answer.id}}">more</a>
     <div id="collapse{{answer.id}}" class="collapse">
-      {{answer.get_markdown|slice:"500:"|linebreaks}}
+      <div class="content-markdown">{{answer.get_markdown|slice:"400:"|linebreaks}}</div>
     </div>
     <br />
     <br />

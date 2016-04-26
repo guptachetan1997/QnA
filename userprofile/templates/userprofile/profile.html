@@ -1,5 +1,9 @@
 {% extends "basic/header.html" %}
 
+{% block title_extra %}
+  Edit Profile
+{% endblock %}
+
 {% block content %}
     <div class="container col-xs-6">
       <form class="form-signin"  action="/profile/edit" enctype='multipart/form-data' method="post"> {% csrf_token %}

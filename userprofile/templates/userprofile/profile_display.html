@@ -1,5 +1,9 @@
 {% extends "basic/header.html" %}
 
+{% block title_extra %}
+  {{profile_basics.first_name}} {{profile_basics.last_name}} - QnA
+{% endblock %}
+
 {% block content %}
 <div class="container">
   <div class="row">

@@ -1,5 +1,9 @@
 {% extends "basic/header.html" %}
 
+{% block title_extra %}
+  Add Question
+{% endblock %}
+
 {% block content %}
 <form class="form-signin" action="/qa/add_ques" method="post">{% csrf_token %}
     <h2 class="form-signin-heading text-primary">Add a new Question</h2>

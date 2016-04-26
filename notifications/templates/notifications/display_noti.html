@@ -1,5 +1,9 @@
 {% extends "basic/header.html" %}
 
+{% block title_extra %}
+  {% load notif_count %}
+  Notifications - {% count request.user.id %}
+{% endblock %}
 
 {% block content %}
   <div class="container col-sm-10">

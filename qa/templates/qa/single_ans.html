@@ -1,11 +1,15 @@
 {% extends "basic/header.html" %}
 
+{% block title_extra %}
+  {{question.q_text}}
+{% endblock %}
+
 {% block content %}
   {% for tag in question.tagify %}
     <a href="/qa/search?search={{tag}}"><span class="badge">{{tag}}</span></a>
   {% endfor %}
   <br />
-  <h3>{{question.q_text}}</h2>
+  <h3>{{question.q_text}}</h3>
   <br />
   {% if question.q_body != None %}
     <small>{{question.q_body|linebreaks}}</small>
@@ -36,7 +40,7 @@
   <br />
   <small class="text-muted">added on {{answer.timestamp|date:"d-m-Y" }}</small>
   <br />
-  {{answer.get_markdown|linebreaks}}
+  <div class="content-markdown">{{answer.get_markdown|linebreaks}}</div
   <br />
   <br />
     <a href="/qa/upvote_ans/{{answer.id}}"><button type="button" class="btn btn-success btn-sm">Upvote <span class="badge">{{answer.upvotes}}</span></button></a>

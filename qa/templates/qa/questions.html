@@ -1,13 +1,29 @@
 {% extends "basic/header.html" %}
 
-{% block content %}  
+{% block title_extra %}
+  Add Answers
+{% endblock %}
+
+{% block content %}
   <div class="container col-xs-10">
     <h2>Questions</h2>
     <div class = "list-group">
       {% for question in questions %}
       <a class="list-group-item" href="/qa/{{question.id}}">
-        {{question.q_text}} <span class="badge">{{question.ans_count}}</span>
+        {{question.q_text}}
+        <br>
+        <small>
+          {% if question.ans_count == 0 %}
+            Be the first one to answer.
+          {% elif question.ans_count == 1 %}
+            1 Answer is written.
+          {% else %}
+            {{question.ans_count}} Answers written.
+          {% endif %}
+        </small>
       </a>
+      <li class="list-group-item">
+      <a href="/qa/add_ans/{{question.id}}"> <button type="button" class="btn btn-primary btn-xs">Answer</button></a></li>
       {% endfor %}
     </div>
   </div>
