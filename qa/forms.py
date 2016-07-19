@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from models import Question,Answer,Comment
+from .models import Question,Answer,Comment
 from pagedown.widgets import PagedownWidget
 
 class QuestionForm(forms.ModelForm):

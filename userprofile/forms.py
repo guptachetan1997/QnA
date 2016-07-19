@@ -1,5 +1,5 @@
 from django import forms
-from models import UserProfile
+from .models import UserProfile
 
 class UserProfileForm(forms.ModelForm):
     dob = forms.DateField(widget=forms.SelectDateWidget(years=range(2016,1939,-1), attrs={'class':"form-control", 'required':''}))

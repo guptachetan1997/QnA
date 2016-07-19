@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login,logout,authenticate
 from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
-from forms import RegistrationForm
+from .forms import RegistrationForm
 from userprofile.models import UserProfile
 
 def log_in(request):

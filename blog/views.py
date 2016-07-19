@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from blog.models import Post,Blog_Comment
 from django.contrib.auth.decorators import login_required
-from forms import PostForm,AddComment
+from .forms import PostForm,AddComment
 from django.core.context_processors import csrf
 from django.http import HttpResponseRedirect
 from notifications.models import *

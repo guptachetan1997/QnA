@@ -1,5 +1,5 @@
 from django import forms
-from models import Post,Blog_Comment
+from .models import Post,Blog_Comment
 from pagedown.widgets import PagedownWidget
 
 class PostForm(forms.ModelForm):

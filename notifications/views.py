@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from models import Notification
+from .models import Notification
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
